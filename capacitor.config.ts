@@ -1,11 +1,11 @@
 import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'in.cpromptsolution.sales',
-  appName: 'CPrompt Sales',
+  appId: 'in.cpromptsolution.customer',
+  appName: 'CPrompt Customer',
   webDir: 'dist',
   server: {
-    allowNavigation: ['sales.cpromptsolution.in', '*.cpromptsolution.in'],
+    allowNavigation: ['customer.cpromptsolution.in', '*.cpromptsolution.in'],
   },
   android: {
     allowMixedContent: false,
@@ -22,6 +22,7 @@ const config: CapacitorConfig = {
     StatusBar: {
       style: 'light',
       backgroundColor: '#ffffff',
+      overlaysWebView: false
     },
     PushNotifications: {
       presentationOptions: ['badge', 'sound', 'alert'],
