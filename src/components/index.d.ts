@@ -2,3 +2,5 @@ export { Toast } from './Toast';
 export { ProgressBar } from './ProgressBar';
 export { OfflineScreen } from './OfflineScreen';
 export { ErrorScreen } from './ErrorScreen';
+export { PermissionScreen } from './PermissionScreen';
+export type { PermissionItem } from './PermissionScreen';

@@ -5,8 +5,7 @@ const config: CapacitorConfig = {
   appName: 'CPrompt Sales',
   webDir: 'dist',
   server: {
-    url: 'https://sales.cpromptsolution.in',
-    cleartext: false,
+    allowNavigation: ['sales.cpromptsolution.in', '*.cpromptsolution.in'],
   },
   android: {
     allowMixedContent: false,

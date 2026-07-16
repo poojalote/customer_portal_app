@@ -1,31 +1,52 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { SplashScreen } from '@capacitor/splash-screen'
 import { StatusBar, Style } from '@capacitor/status-bar'
-import { ProgressBar, OfflineScreen, ErrorScreen } from './components'
-import { useNetworkStatus, useBackButton } from './hooks'
+import {
+  OfflineScreen,
+  PermissionScreen,
+  type PermissionItem,
+} from './components'
+import { useNetworkStatus } from './hooks'
+import { permissionService, type PermissionType } from './services/PermissionService'
 import { logger } from './utils/logger'
 import { config } from './config/config'
 import './styles/App.css'
 
-type AppState = 'loading' | 'online' | 'offline' | 'error'
+type AppState = 'loading' | 'offline' | 'permissions' | 'launching'
+
+const PERMISSION_LABELS: Record<PermissionType, string> = {
+  camera: 'Camera — for photo uploads',
+  location: 'Location — for location-based features',
+  storage: 'Storage — for downloading files',
+  notifications: 'Notifications — for updates and alerts',
+  microphone: 'Microphone — for audio uploads',
+}
+
+function getRequiredPermissions(): PermissionType[] {
+  const required: PermissionType[] = []
+  if (config.permissions.camera) required.push('camera')
+  if (config.permissions.location) required.push('location')
+  if (config.permissions.storage) required.push('storage')
+  if (config.permissions.notification) required.push('notifications')
+  if (config.permissions.microphone) required.push('microphone')
+  return required
+}
 
 export function App() {
   const [appState, setAppState] = useState<AppState>('loading')
-  const [progress, setProgress] = useState(0)
-  const [errorCode, setErrorCode] = useState('')
-  const [errorMessage, setErrorMessage] = useState('')
+  const [permissionItems, setPermissionItems] = useState<PermissionItem[]>([])
+  const [requesting, setRequesting] = useState(false)
   const networkStatus = useNetworkStatus()
-  const webviewRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const initApp = async () => {
       try {
         await StatusBar.setStyle({ style: Style.Light })
         await StatusBar.setBackgroundColor({ color: '#ffffff' })
-        await SplashScreen.hide()
-        logger.info('App initialized successfully')
       } catch (error) {
-        logger.error('Error initializing app', error)
+        logger.error('Error initializing status bar', error)
+      } finally {
+        await SplashScreen.hide()
       }
     }
 
@@ -33,102 +54,88 @@ export function App() {
   }, [])
 
   useEffect(() => {
-    if (networkStatus.connected) {
-      if (appState === 'offline') {
-        logger.info('Network restored, retrying')
-        setAppState('loading')
-      } else {
-        setAppState('online')
+    if (appState !== 'loading') return
+    if (!networkStatus.connected) {
+      setAppState('offline')
+      return
+    }
+
+    const checkPermissions = async () => {
+      const required = getRequiredPermissions()
+      const results: PermissionItem[] = []
+
+      for (const type of required) {
+        results.push({
+          type,
+          label: PERMISSION_LABELS[type],
+          granted: await permissionService.checkPermission(type),
+        })
       }
-    } else {
+
+      setPermissionItems(results)
+
+      if (results.every((item) => item.granted)) {
+        setAppState('launching')
+      } else {
+        setAppState('permissions')
+      }
+    }
+
+    checkPermissions()
+  }, [appState, networkStatus.connected])
+
+  useEffect(() => {
+    if (appState === 'launching') {
+      window.location.href = config.websiteUrl
+    }
+  }, [appState])
+
+  useEffect(() => {
+    if (!networkStatus.connected && appState !== 'offline' && appState !== 'launching') {
       setAppState('offline')
     }
   }, [networkStatus.connected, appState])
 
-  const handleWebViewMessage = (event: Event) => {
-    const customEvent = event as CustomEvent
-    const { type, data } = customEvent.detail || {}
+  const handleRequestPermissions = async () => {
+    setRequesting(true)
+    try {
+      const required = getRequiredPermissions()
+      const results: PermissionItem[] = []
 
-    switch (type) {
-      case 'progress':
-        setProgress(data?.progress || 0)
-        break
-      case 'loaded':
-        setProgress(100)
-        setTimeout(() => setProgress(0), 500)
-        setAppState('online')
-        break
-      case 'error':
-        setErrorCode(data?.code || 'Error')
-        setErrorMessage(
-          data?.message || 'Failed to load page'
-        )
-        setAppState('error')
-        break
-      default:
-        break
+      for (const type of required) {
+        const alreadyGranted = await permissionService.checkPermission(type)
+        const granted = alreadyGranted || (await permissionService.requestPermission(type))
+        const item = { type, label: PERMISSION_LABELS[type], granted }
+        results.push(item)
+        setPermissionItems([...results])
+      }
+
+      if (results.every((item) => item.granted)) {
+        setAppState('launching')
+      }
+    } finally {
+      setRequesting(false)
     }
   }
 
-  const handleRetry = () => {
-    if (webviewRef.current && appState === 'offline') {
-      setAppState('loading')
-    } else if (webviewRef.current && appState === 'error') {
-      setAppState('loading')
-      window.location.reload()
-    }
+  const handleOfflineRetry = () => {
+    setAppState('loading')
   }
 
-  useBackButton(() => {
-    const webView = webviewRef.current
-    if (webView && (webView as any).canGoBack?.()) {
-      (webView as any).goBack()
-      return true
-    }
-    return false
-  })
+  if (appState === 'offline') {
+    return <OfflineScreen onRetry={handleOfflineRetry} />
+  }
 
-  useEffect(() => {
-    window.addEventListener('message', handleWebViewMessage)
-    return () => {
-      window.removeEventListener(
-        'message',
-        handleWebViewMessage
-      )
-    }
-  }, [appState])
-
-  return (
-    <div className="app">
-      <ProgressBar
-        progress={progress}
-        visible={appState === 'loading'}
+  if (appState === 'permissions') {
+    return (
+      <PermissionScreen
+        permissions={permissionItems}
+        requesting={requesting}
+        allGranted={permissionItems.every((item) => item.granted)}
+        onRequest={handleRequestPermissions}
       />
+    )
+  }
 
-      {appState === 'offline' && (
-        <OfflineScreen onRetry={handleRetry} />
-      )}
-
-      {appState === 'error' && (
-        <ErrorScreen
-          errorCode={errorCode}
-          errorMessage={errorMessage}
-          onRetry={handleRetry}
-        />
-      )}
-
-      {(appState === 'online' || appState === 'loading') && (
-        <div
-          ref={webviewRef}
-          className="webview-container"
-          style={{
-            display:
-              appState === 'loading'
-                ? 'none'
-                : 'block',
-          }}
-        />
-      )}
-    </div>
-  )
+  return <div className="app" />
 }

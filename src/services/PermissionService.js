@@ -34,6 +34,10 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+import { Camera } from '@capacitor/camera';
+import { Geolocation } from '@capacitor/geolocation';
+import { Filesystem } from '@capacitor/filesystem';
+import { PushNotifications } from '@capacitor/push-notifications';
 import { logger } from '../utils/logger';
 import { PERMISSION_REQUEST_TIMEOUT } from '../utils/constants';
 var PermissionService = /** @class */ (function () {
@@ -65,79 +69,130 @@ var PermissionService = /** @class */ (function () {
     };
     PermissionService.prototype.performRequest = function (type) {
         return __awaiter(this, void 0, void 0, function () {
-            var _a, error_1;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
-                    case 0:
-                        _b.trys.push([0, 13, , 14]);
-                        this.requestedPermissions.add(type);
-                        _a = type;
-                        switch (_a) {
-                            case 'camera': return [3 /*break*/, 1];
-                            case 'location': return [3 /*break*/, 3];
-                            case 'storage': return [3 /*break*/, 5];
-                            case 'microphone': return [3 /*break*/, 7];
-                            case 'notifications': return [3 /*break*/, 9];
-                        }
-                        return [3 /*break*/, 11];
-                    case 1: return [4 /*yield*/, this.requestCameraPermission()];
-                    case 2: return [2 /*return*/, _b.sent()];
-                    case 3: return [4 /*yield*/, this.requestLocationPermission()];
-                    case 4: return [2 /*return*/, _b.sent()];
-                    case 5: return [4 /*yield*/, this.requestStoragePermission()];
-                    case 6: return [2 /*return*/, _b.sent()];
-                    case 7: return [4 /*yield*/, this.requestMicrophonePermission()];
-                    case 8: return [2 /*return*/, _b.sent()];
-                    case 9: return [4 /*yield*/, this.requestNotificationPermission()];
-                    case 10: return [2 /*return*/, _b.sent()];
-                    case 11: return [2 /*return*/, false];
-                    case 12: return [3 /*break*/, 14];
-                    case 13:
-                        error_1 = _b.sent();
-                        logger.error("Error requesting ".concat(type, " permission"), error_1);
+            return __generator(this, function (_a) {
+                this.requestedPermissions.add(type);
+                switch (type) {
+                    case 'camera':
+                        return [2 /*return*/, this.requestCameraPermission()];
+                    case 'location':
+                        return [2 /*return*/, this.requestLocationPermission()];
+                    case 'storage':
+                        return [2 /*return*/, this.requestStoragePermission()];
+                    case 'microphone':
+                        return [2 /*return*/, this.requestMicrophonePermission()];
+                    case 'notifications':
+                        return [2 /*return*/, this.requestNotificationPermission()];
+                    default:
                         return [2 /*return*/, false];
-                    case 14: return [2 /*return*/];
                 }
+                return [2 /*return*/];
             });
         });
     };
     PermissionService.prototype.requestCameraPermission = function () {
         return __awaiter(this, void 0, void 0, function () {
+            var status;
             return __generator(this, function (_a) {
-                logger.debug('Requesting camera permission');
-                return [2 /*return*/, true];
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, Camera.requestPermissions({ permissions: ['camera'] })];
+                    case 1:
+                        status = _a.sent();
+                        return [2 /*return*/, status.camera === 'granted' || status.camera === 'limited'];
+                }
             });
         });
     };
     PermissionService.prototype.requestLocationPermission = function () {
         return __awaiter(this, void 0, void 0, function () {
+            var status;
             return __generator(this, function (_a) {
-                logger.debug('Requesting location permission');
-                return [2 /*return*/, true];
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, Geolocation.requestPermissions()];
+                    case 1:
+                        status = _a.sent();
+                        return [2 /*return*/, status.location === 'granted' || status.coarseLocation === 'granted'];
+                }
             });
         });
     };
     PermissionService.prototype.requestStoragePermission = function () {
         return __awaiter(this, void 0, void 0, function () {
+            var status;
             return __generator(this, function (_a) {
-                logger.debug('Requesting storage permission');
-                return [2 /*return*/, true];
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, Filesystem.requestPermissions()];
+                    case 1:
+                        status = _a.sent();
+                        return [2 /*return*/, status.publicStorage === 'granted'];
+                }
             });
         });
     };
     PermissionService.prototype.requestMicrophonePermission = function () {
         return __awaiter(this, void 0, void 0, function () {
+            var status;
             return __generator(this, function (_a) {
-                logger.debug('Requesting microphone permission');
-                return [2 /*return*/, true];
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, Camera.requestPermissions({ permissions: ['photos'] })];
+                    case 1:
+                        status = _a.sent();
+                        return [2 /*return*/, status.photos === 'granted' || status.photos === 'limited'];
+                }
             });
         });
     };
     PermissionService.prototype.requestNotificationPermission = function () {
         return __awaiter(this, void 0, void 0, function () {
+            var status;
             return __generator(this, function (_a) {
-                logger.debug('Requesting notification permission');
-                return [2 /*return*/, true];
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, PushNotifications.requestPermissions()];
+                    case 1:
+                        status = _a.sent();
+                        return [2 /*return*/, status.receive === 'granted'];
+                }
+            });
+        });
+    };
+    PermissionService.prototype.checkPermission = function (type) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _a, status_1, status_2, status_3, status_4, error_1;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        _b.trys.push([0, 11, , 12]);
+                        _a = type;
+                        switch (_a) {
+                            case 'camera': return [3 /*break*/, 1];
+                            case 'location': return [3 /*break*/, 3];
+                            case 'storage': return [3 /*break*/, 5];
+                            case 'notifications': return [3 /*break*/, 7];
+                        }
+                        return [3 /*break*/, 9];
+                    case 1: return [4 /*yield*/, Camera.checkPermissions()];
+                    case 2:
+                        status_1 = _b.sent();
+                        return [2 /*return*/, status_1.camera === 'granted' || status_1.camera === 'limited'];
+                    case 3: return [4 /*yield*/, Geolocation.checkPermissions()];
+                    case 4:
+                        status_2 = _b.sent();
+                        return [2 /*return*/, status_2.location === 'granted' || status_2.coarseLocation === 'granted'];
+                    case 5: return [4 /*yield*/, Filesystem.checkPermissions()];
+                    case 6:
+                        status_3 = _b.sent();
+                        return [2 /*return*/, status_3.publicStorage === 'granted'];
+                    case 7: return [4 /*yield*/, PushNotifications.checkPermissions()];
+                    case 8:
+                        status_4 = _b.sent();
+                        return [2 /*return*/, status_4.receive === 'granted'];
+                    case 9: return [2 /*return*/, false];
+                    case 10: return [3 /*break*/, 12];
+                    case 11:
+                        error_1 = _b.sent();
+                        logger.error("Error checking ".concat(type, " permission"), error_1);
+                        return [2 /*return*/, false];
+                    case 12: return [2 /*return*/];
+                }
             });
         });
     };
