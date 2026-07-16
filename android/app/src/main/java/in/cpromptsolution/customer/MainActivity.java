@@ -1,4 +1,4 @@
-package in.cpromptsolution.sales;
+package in.cpromptsolution.customer;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;

@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">CPrompt Sales</string>
-    <string name="title_activity_main">CPrompt Sales</string>
-    <string name="package_name">in.cpromptsolution.sales</string>
-    <string name="custom_url_scheme">in.cpromptsolution.sales</string>
+    <string name="app_name">CPrompt Customer</string>
+    <string name="title_activity_main">CPrompt Customer</string>
+    <string name="package_name">in.cpromptsolution.customer</string>
+    <string name="custom_url_scheme">in.cpromptsolution.customer</string>
 </resources>
