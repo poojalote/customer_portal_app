@@ -13,6 +13,9 @@ import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.core.content.FileProvider;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import com.getcapacitor.BridgeActivity;
 import com.getcapacitor.BridgeWebChromeClient;
 import java.io.File;
@@ -31,7 +34,14 @@ public class MainActivity extends BridgeActivity {
       getBridge().getWebView().restoreState(savedInstanceState);
     }
 
-    getBridge().getWebView().setWebChromeClient(new FullChooserWebChromeClient(getBridge()));
+    WebView webView = getBridge().getWebView();
+    webView.setWebChromeClient(new FullChooserWebChromeClient(getBridge()));
+
+    ViewCompat.setOnApplyWindowInsetsListener(webView, (view, windowInsets) -> {
+      Insets systemBars = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
+      view.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+      return WindowInsetsCompat.CONSUMED;
+    });
   }
 
   @Override
