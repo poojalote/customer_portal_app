@@ -1,0 +1,94 @@
+.offline-screen {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+  z-index: 100;
+}
+
+@media (prefers-color-scheme: dark) {
+  .offline-screen {
+    background: #121212;
+  }
+}
+
+.offline-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  text-align: center;
+}
+
+.offline-illustration {
+  width: 120px;
+  height: 120px;
+  margin-bottom: 24px;
+  color: #999999;
+}
+
+@media (prefers-color-scheme: dark) {
+  .offline-illustration {
+    color: #666666;
+  }
+}
+
+.offline-icon {
+  width: 100%;
+  height: 100%;
+}
+
+.offline-title {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #212121;
+}
+
+@media (prefers-color-scheme: dark) {
+  .offline-title {
+    color: #ffffff;
+  }
+}
+
+.offline-description {
+  font-size: 14px;
+  color: #666666;
+  margin-bottom: 24px;
+  line-height: 1.6;
+}
+
+@media (prefers-color-scheme: dark) {
+  .offline-description {
+    color: #999999;
+  }
+}
+
+.offline-button {
+  padding: 12px 32px;
+  background: #2196f3;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.offline-button:active {
+  background: #1976d2;
+}
+
+.offline-button:disabled {
+  background: #cccccc;
+  cursor: not-allowed;
+}

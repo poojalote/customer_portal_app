@@ -1,0 +1,13 @@
+node_modules
+dist
+.DS_Store
+*.local
+.env
+.env.local
+*.log
+build/
+android/app/build
+android/.gradle
+.idea/
+*.iml
+.vscode/settings.json
