@@ -1,6 +1,6 @@
 # Development Guide
 
-This guide provides detailed information for developers working on the CPrompt Sales WebView app.
+This guide provides detailed information for developers working on the CPrompt customer WebView app.
 
 ## Project Architecture
 
@@ -409,10 +409,10 @@ adb logcat | grep chromium
 adb shell setprop debug.http.enable true
 
 # Kill app
-adb shell am force-stop in.cpromptsolution.sales
+adb shell am force-stop in.cpromptsolution.customer
 
 # Restart app
-adb shell am start -n in.cpromptsolution.sales/.MainActivity
+adb shell am start -n in.cpromptsolution.customer/.MainActivity
 ```
 
 ## Code Quality

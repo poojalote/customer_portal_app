@@ -3,13 +3,13 @@ var getEnvVar = function (key, defaultValue) {
     return envValue || defaultValue;
 };
 export var config = {
-    websiteUrl: getEnvVar('VITE_WEBSITE_URL', 'https://sales.cpromptsolution.in'),
+    websiteUrl: getEnvVar('VITE_WEBSITE_URL', 'https://customer.cpromptsolution.in'),
     allowedDomains: getEnvVar('VITE_ALLOWED_DOMAINS', '')
         .split(',')
-        .filter(Boolean) || ['sales.cpromptsolution.in', 'cpromptsolution.in'],
+        .filter(Boolean) || ['customer.cpromptsolution.in', 'cpromptsolution.in'],
     timeoutMs: parseInt(getEnvVar('VITE_TIMEOUT_MS', '30000'), 10),
-    appName: 'CPrompt Sales',
-    packageName: 'in.cpromptsolution.sales',
+    appName: 'CPrompt customer',
+    packageName: 'in.cpromptsolution.customer',
     theme: 'system',
     permissions: {
         camera: true,

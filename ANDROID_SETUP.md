@@ -26,15 +26,15 @@ android/
 Create the directory structure for Kotlin source files:
 
 ```bash
-mkdir -p android/app/src/main/java/in/cpromptsolution/sales
+mkdir -p android/app/src/main/java/in/cpromptsolution/customer
 ```
 
 ## Step 2: Create CustomWebViewClient (MainActivity Enhancement)
 
-Create `android/app/src/main/java/in/cpromptsolution/sales/MainActivity.kt`:
+Create `android/app/src/main/java/in/cpromptsolution/customer/MainActivity.kt`:
 
 ```kotlin
-package in.cpromptsolution.sales
+package in.cpromptsolution.customer
 
 import android.os.Bundle
 import com.getcapacitor.BridgeActivity
@@ -57,7 +57,7 @@ Ensure your `android/app/src/main/AndroidManifest.xml` includes these permission
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="in.cpromptsolution.sales">
+    package="in.cpromptsolution.customer">
 
     <!-- Required permissions -->
     <uses-permission android:name="android.permission.INTERNET" />
@@ -99,7 +99,7 @@ Ensure your `android/app/src/main/AndroidManifest.xml` includes these permission
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data
                     android:scheme="https"
-                    android:host="sales.cpromptsolution.in"
+                    android:host="customer.cpromptsolution.in"
                     android:pathPrefix="/" />
             </intent-filter>
         </activity>
@@ -133,7 +133,7 @@ android {
     compileSdk 34
     
     defaultConfig {
-        applicationId "in.cpromptsolution.sales"
+        applicationId "in.cpromptsolution.customer"
         minSdk 26
         targetSdk 34
         versionCode 1
@@ -243,7 +243,7 @@ webView?.settings?.apply {
     builtInZoomControls = false
     
     // Other settings
-    userAgentString = "CPromptSales/1.0"
+    userAgentString = "CPromptcustomer/1.0"
     setGeolocationEnabled(true)
     allowFileAccess = true
     allowContentAccess = true
@@ -318,7 +318,7 @@ If WebView doesn't load:
 1. Verify `capacitor.config.ts` has correct `server.url`
 2. Check device has internet permission
 3. Inspect logs: `adb logcat | grep chromium`
-4. Test with `adb shell monkey -p in.cpromptsolution.sales -c android.intent.category.LAUNCHER 1`
+4. Test with `adb shell monkey -p in.cpromptsolution.customer -c android.intent.category.LAUNCHER 1`
 
 ### Permission Denied
 
@@ -326,7 +326,7 @@ If permissions aren't working:
 
 1. Confirm they're declared in `AndroidManifest.xml`
 2. For Android 6+, runtime permissions required
-3. Test with: `adb shell am start -n in.cpromptsolution.sales/.MainActivity`
+3. Test with: `adb shell am start -n in.cpromptsolution.customer/.MainActivity`
 
 ## Next Steps
 

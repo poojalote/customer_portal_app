@@ -88,7 +88,7 @@ android/
 ├── app/
 │   ├── build.gradle                ✅ App config (includes dependencies)
 │   ├── src/main/
-│   │   ├── java/in/cpromptsolution/sales/MainActivity.java
+│   │   ├── java/in/cpromptsolution/customer/MainActivity.java
 │   │   ├── res/
 │   │   ├── assets/                 ✅ Web assets (React build)
 │   │   └── AndroidManifest.xml
@@ -161,10 +161,10 @@ android.useAndroidX=true
 apply plugin: 'com.android.application'
 
 android {
-    namespace "in.cpromptsolution.sales"
+    namespace "in.cpromptsolution.customer"
     compileSdk rootProject.ext.compileSdkVersion
     defaultConfig {
-        applicationId "in.cpromptsolution.sales"
+        applicationId "in.cpromptsolution.customer"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
@@ -190,7 +190,7 @@ apply from: 'capacitor.build.gradle'
 
 ```xml
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="in.cpromptsolution.sales">
+    package="in.cpromptsolution.customer">
 
     <application
         android:theme="@style/AppTheme">
@@ -217,7 +217,7 @@ apply from: 'capacitor.build.gradle'
 ### 6. `MainActivity.java` ✅
 
 ```java
-package in.cpromptsolution.sales;
+package in.cpromptsolution.customer;
 
 import com.getcapacitor.BridgeActivity;
 

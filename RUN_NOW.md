@@ -51,7 +51,7 @@ Then wait and try again.
 
 ## What Gets Loaded
 
-- Website: `https://sales.cpromptsolution.in`
+- Website: `https://customer.cpromptsolution.in`
 - Device: Your Android phone or emulator
 - Time: ~30 seconds to fully load
 

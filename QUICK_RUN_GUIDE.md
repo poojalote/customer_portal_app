@@ -3,7 +3,7 @@
 ## What's Configured
 
 ✅ **Module**: `app` (auto-detected from settings.gradle)
-✅ **Activity**: MainActivity (in package in.cpromptsolution.sales)
+✅ **Activity**: MainActivity (in package in.cpromptsolution.customer)
 ✅ **Intent Filter**: LAUNCHER (in AndroidManifest.xml)
 ✅ **Build Type**: Debug
 ✅ **APK**: app-debug.apk
@@ -47,7 +47,7 @@ Android Studio launches with project loaded.
 ```
 Module: app
   ├── Activity: MainActivity
-  ├── Package: in.cpromptsolution.sales
+  ├── Package: in.cpromptsolution.customer
   └── Intent: LAUNCHER
 
 Build: Debug APK
@@ -107,7 +107,7 @@ App running ✅
 ```
 I/MainActivity: onCreate() called
 I/BridgeActivity: Initializing Capacitor Bridge
-D/WebView: Loading https://sales.cpromptsolution.in
+D/WebView: Loading https://customer.cpromptsolution.in
 I/WebView: Page loaded successfully
 D/Bridge: Capacitor ready
 ```

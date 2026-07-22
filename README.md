@@ -1,6 +1,6 @@
-# CPrompt Sales - WebView Container App
+# CPrompt customer - WebView Container App
 
-A production-ready native Android app that wraps the CPrompt Sales website (`https://sales.cpromptsolution.in`) in a native WebView container, providing native mobile capabilities while maintaining the responsiveness of the existing web application.
+A production-ready native Android app that wraps the CPrompt customer website (`https://customer.cpromptsolution.in`) in a native WebView container, providing native mobile capabilities while maintaining the responsiveness of the existing web application.
 
 ## Features
 
@@ -119,8 +119,8 @@ export interface AppConfig {
 Create a `.env` file to override defaults:
 
 ```env
-VITE_WEBSITE_URL=https://sales.cpromptsolution.in
-VITE_ALLOWED_DOMAINS=sales.cpromptsolution.in,cpromptsolution.in
+VITE_WEBSITE_URL=https://customer.cpromptsolution.in
+VITE_ALLOWED_DOMAINS=customer.cpromptsolution.in,cpromptsolution.in
 VITE_TIMEOUT_MS=30000
 VITE_ENV=production
 VITE_VERSION_CHECK_URL=https://api.cpromptsolution.in/version

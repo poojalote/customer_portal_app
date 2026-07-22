@@ -130,7 +130,7 @@ Android Studio will create something like this automatically in `.idea/runConfig
 3. adb install -r app-debug.apk
    └─ Installs on selected device/emulator
 
-4. adb shell am start -n in.cpromptsolution.sales/.MainActivity
+4. adb shell am start -n in.cpromptsolution.customer/.MainActivity
    └─ Launches MainActivity
 ```
 
@@ -145,7 +145,7 @@ Capacitor Bridge loads
     ↓
 WebView initializes
     ↓
-website loads (https://sales.cpromptsolution.in)
+website loads (https://customer.cpromptsolution.in)
     ↓
 Splash screen hides
     ↓
@@ -185,7 +185,7 @@ Android Studio's **Logcat** will show:
 ```
 02:15:34.123  D/MainActivity: onCreate
 02:15:34.456  D/BridgeActivity: Initializing Capacitor Bridge
-02:15:34.789  D/WebView: Loading https://sales.cpromptsolution.in
+02:15:34.789  D/WebView: Loading https://customer.cpromptsolution.in
 02:15:35.123  I/Choreographer: Skipped 60 frames! The application may be doing too much work on its main thread.
 02:15:36.456  I/WebView: Page loaded successfully
 02:15:36.789  D/Bridge: Capacitor Bridge ready

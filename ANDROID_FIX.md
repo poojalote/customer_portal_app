@@ -52,15 +52,15 @@ npx cap add android
 
 #### 3. **App Module (android/app/)** ✅
 - `app/build.gradle` – Complete app configuration with:
-  - Namespace: `in.cpromptsolution.sales`
-  - Application ID: `in.cpromptsolution.sales`
+  - Namespace: `in.cpromptsolution.customer`
+  - Application ID: `in.cpromptsolution.customer`
   - Min SDK: 24
   - Target SDK: 34
   - Version code/name: 1.0
   - All required dependencies
 
 #### 4. **MainActivity** ✅
-- `app/src/main/java/in/cpromptsolution/sales/MainActivity.java`
+- `app/src/main/java/in/cpromptsolution/customer/MainActivity.java`
   - Extends `BridgeActivity`
   - Properly configured for Capacitor
 
@@ -88,7 +88,7 @@ npx cap add android
 
 #### 7. **Capacitor Configuration** ✅
 - `capacitor.config.ts` properly configured with:
-  - Website URL: `https://sales.cpromptsolution.in`
+  - Website URL: `https://customer.cpromptsolution.in`
   - Clear text disabled (HTTPS only)
   - Plugin settings for splash screen, status bar, notifications
 
@@ -133,7 +133,7 @@ Once Gradle sync completes:
 4. Name it `app` (or any name)
 5. Set:
    - **Module**: `app`
-   - **Package name**: `in.cpromptsolution.sales`
+   - **Package name**: `in.cpromptsolution.customer`
    - **Activity**: `MainActivity` (should auto-detect)
 6. Click **OK**
 
@@ -370,7 +370,7 @@ Then click the **green Run (▶) button** to build and launch the app!
 
 The app will:
 1. Show splash screen
-2. Load website: `https://sales.cpromptsolution.in`
+2. Load website: `https://customer.cpromptsolution.in`
 3. Display offline screen if no internet
 4. Handle all configured features
 

@@ -1,6 +1,6 @@
 # Project Summary
 
-**CPrompt Sales WebView Container App** – Production-ready native Android application built with Capacitor, React, and TypeScript.
+**CPrompt customer WebView Container App** – Production-ready native Android application built with Capacitor, React, and TypeScript.
 
 ## Project Status: ✅ COMPLETE & READY TO BUILD
 
@@ -163,7 +163,7 @@ WebViewApplication/
 ## Key Features Implemented
 
 ### ✅ WebView Container
-- Loads `https://sales.cpromptsolution.in`
+- Loads `https://customer.cpromptsolution.in`
 - Full-screen, responsive design
 - Session persistence
 - Zoom disabled
@@ -205,12 +205,12 @@ WebViewApplication/
 ### Website URL
 Edit `src/config/config.ts`:
 ```typescript
-websiteUrl: 'https://sales.cpromptsolution.in'
+websiteUrl: 'https://customer.cpromptsolution.in'
 ```
 
 ### Allowed Domains
 ```typescript
-allowedDomains: ['sales.cpromptsolution.in', 'cpromptsolution.in']
+allowedDomains: ['customer.cpromptsolution.in', 'cpromptsolution.in']
 ```
 
 ### Permissions

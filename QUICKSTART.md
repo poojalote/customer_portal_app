@@ -158,7 +158,7 @@ npm run format    # Auto-fix formatting
 
 ```bash
 # Check network connectivity
-adb shell am start -n in.cpromptsolution.sales/.MainActivity
+adb shell am start -n in.cpromptsolution.customer/.MainActivity
 
 # View logs
 adb logcat | grep chromium

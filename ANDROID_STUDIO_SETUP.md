@@ -68,7 +68,7 @@ The app should launch!
    ```
    Name: app
    Module: app
-   Package name: in.cpromptsolution.sales
+   Package name: in.cpromptsolution.customer
    Activity: .MainActivity
    ```
 5. Click **OK**
@@ -88,7 +88,7 @@ cd android
 adb install -r app/build/outputs/apk/debug/app-debug.apk
 
 # Or install and run
-adb shell am start -n in.cpromptsolution.sales/.MainActivity
+adb shell am start -n in.cpromptsolution.customer/.MainActivity
 ```
 
 ---
@@ -184,7 +184,7 @@ adb shell am start -n in.cpromptsolution.sales/.MainActivity
 
 **Check Logcat**:
 1. Click **View** → **Tool Windows** → **Logcat** (or click **Logcat** tab at bottom)
-2. Filter by app name: `in.cpromptsolution.sales` (top right dropdown)
+2. Filter by app name: `in.cpromptsolution.customer` (top right dropdown)
 3. Look for red error messages
 4. Scroll up to see the full stack trace
 
@@ -235,10 +235,10 @@ To build **Release** version:
 
 ### Enable Debugging in WebView
 
-In `android/app/src/main/java/in/cpromptsolution/sales/MainActivity.java`:
+In `android/app/src/main/java/in/cpromptsolution/customer/MainActivity.java`:
 
 ```java
-package in.cpromptsolution.sales;
+package in.cpromptsolution.customer;
 
 import com.getcapacitor.BridgeActivity;
 import android.webkit.WebView;
@@ -263,7 +263,7 @@ Then, in Chrome on your PC:
 ### Logcat Filtering
 
 In Logcat, filter by:
-- App name: `in.cpromptsolution.sales`
+- App name: `in.cpromptsolution.customer`
 - Level: `Info` or `Verbose`
 - Tag: `chromium` (for WebView logs), `Capacitor` (for app logs)
 
