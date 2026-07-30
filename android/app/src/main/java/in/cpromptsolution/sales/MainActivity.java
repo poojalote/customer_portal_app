@@ -1,4 +1,4 @@
-package in.cpromptsolution.sales;
+package in.cpromptsolution.customer;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
@@ -23,6 +23,10 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import android.app.DownloadManager;
+import android.webkit.DownloadListener;
+import android.webkit.URLUtil;
+import android.widget.Toast;
 
 public class MainActivity extends BridgeActivity {
 
@@ -37,6 +41,43 @@ public class MainActivity extends BridgeActivity {
     WebView webView = getBridge().getWebView();
     webView.setWebChromeClient(new FullChooserWebChromeClient(getBridge()));
 
+    webView.setDownloadListener(new DownloadListener() {
+      @Override
+      public void onDownloadStart(String url,
+                                  String userAgent,
+                                  String contentDisposition,
+                                  String mimeType,
+                                  long contentLength) {
+
+        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
+
+        request.setMimeType(mimeType);
+        request.addRequestHeader("User-Agent", userAgent);
+
+        String fileName = URLUtil.guessFileName(url, contentDisposition, mimeType);
+
+        request.setTitle(fileName);
+        request.setDescription("Downloading...");
+        request.setNotificationVisibility(
+                DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED
+        );
+
+        request.setDestinationInExternalPublicDir(
+                Environment.DIRECTORY_DOWNLOADS,
+                fileName
+        );
+
+        DownloadManager dm =
+                (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
+
+        if (dm != null) {
+          dm.enqueue(request);
+          Toast.makeText(MainActivity.this,
+                  "Download started",
+                  Toast.LENGTH_SHORT).show();
+        }
+      }
+    });
     ViewCompat.setOnApplyWindowInsetsListener(webView, (view, windowInsets) -> {
       Insets systemBars = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
       view.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -51,6 +92,7 @@ public class MainActivity extends BridgeActivity {
       getBridge().getWebView().saveState(outState);
     }
   }
+
 
   /**
    * Extends Capacitor's default BridgeWebChromeClient (which already handles
@@ -68,16 +110,16 @@ public class MainActivity extends BridgeActivity {
     FullChooserWebChromeClient(com.getcapacitor.Bridge bridge) {
       super(bridge);
       chooserLauncher = registerForActivityResult(
-        new ActivityResultContracts.StartActivityForResult(),
-        this::handleChooserResult
+              new ActivityResultContracts.StartActivityForResult(),
+              this::handleChooserResult
       );
     }
 
     @Override
     public boolean onShowFileChooser(
-      WebView webView,
-      ValueCallback<Uri[]> callback,
-      FileChooserParams fileChooserParams
+            WebView webView,
+            ValueCallback<Uri[]> callback,
+            FileChooserParams fileChooserParams
     ) {
       if (filePathCallback != null) {
         filePathCallback.onReceiveValue(null);
@@ -90,9 +132,9 @@ public class MainActivity extends BridgeActivity {
         File photoFile = createImageFile();
         if (photoFile != null) {
           Uri photoUri = FileProvider.getUriForFile(
-            MainActivity.this,
-            getApplicationContext().getPackageName() + ".fileprovider",
-            photoFile
+                  MainActivity.this,
+                  getApplicationContext().getPackageName() + ".fileprovider",
+                  photoFile
           );
           cameraPhotoUri = photoUri.toString();
           takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
@@ -111,8 +153,8 @@ public class MainActivity extends BridgeActivity {
       contentSelectionIntent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, allowMultiple);
 
       Intent[] initialIntents = takePictureIntent != null
-        ? new Intent[] { takePictureIntent }
-        : new Intent[0];
+              ? new Intent[] { takePictureIntent }
+              : new Intent[0];
 
       Intent chooserIntent = new Intent(Intent.ACTION_CHOOSER);
       chooserIntent.putExtra(Intent.EXTRA_INTENT, contentSelectionIntent);
